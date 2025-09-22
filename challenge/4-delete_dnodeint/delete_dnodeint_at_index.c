@@ -42,16 +42,13 @@ int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 		}
 	}
 	else
-	{
-		tmp = *head;
-		/* Relink neighbors around tmp before freeing it */
-		if (tmp->next)
-			tmp->next->prev = tmp->prev;
-		if (tmp->prev)
-			tmp->prev->next = tmp->next;
-		free(tmp);
-		/* Restore head pointer to original list head */
-		*head = saved_head;
-	}
-	return (1);
+    {
+        if ((*head)->prev != NULL)
+        (*head)->prev->next = (*head)->next;
+    if ((*head)->next != NULL)
+        (*head)->next->prev = (*head)->prev;
+    free(*head);
+    *head = saved_head;
+    }
+    return (1);
 }
